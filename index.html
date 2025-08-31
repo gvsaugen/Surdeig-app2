@@ -1,204 +1,200 @@
 
 <!DOCTYPE html>
+
 <html lang="no">
 <head>
-    <meta charset="UTF-8">
-    <title>Surdeigsbrød Kalkulator</title>
-    <style>
+<meta charset="utf-8"/>
+<title>Surdeigsbrød Kalkulator</title>
+<style>
         body {
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #f8f4e5, #eae7dc);
+            background: #fdfaf6;
             color: #333;
-        }
-        header {
-            background-color: #d8c3a5;
-            padding: 20px;
-            text-align: center;
-            font-size: 2em;
-            font-weight: bold;
-            color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .container {
             display: flex;
             flex-wrap: wrap;
             padding: 20px;
         }
-        .input-section, .output-section {
+        .half {
             flex: 1;
             min-width: 300px;
             padding: 20px;
-            box-sizing: border-box;
         }
-        .input-section {
-            background-color: #fff;
-            border-right: 2px solid #d8c3a5;
-        }
-        .output-section {
-            background-color: #fefefe;
+        h2 {
+            color: #5a3e2b;
         }
         label {
             display: block;
             margin-top: 10px;
-            font-weight: bold;
         }
-        input {
-            width: 100%;
-            padding: 8px;
+        input[type="number"], input[type="checkbox"] {
             margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: border-color 0.3s;
+            padding: 5px;
+            width: 100%;
         }
-        input:hover {
-            border-color: #d8c3a5;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #d8c3a5;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #c7b198;
-        }
-        .results, .instructions {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f4f4f4;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .grovhet-indikator {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            margin: 0 auto;
-            background-color: #ccc;
-            position: relative;
-            transition: background-color 0.5s ease;
-        }
-        .circle::after {
-            content: attr(data-label);
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-weight: bold;
-            color: #fff;
+        #instructions {
+            background: #fff8f0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px;
         }
     </style>
 </head>
-<body>
-    <header>Surdeigsbrød Kalkulator</header>
-    <div class="container">
-        <div class="input-section">
-            <label for="antall">Antall brød</label>
-            <input type="number" id="antall" value="2">
-            <label for="vekt">Vekt per brød (g)</label>
-            <input type="number" id="vekt" value="800">
-            <label for="hydrasjon">Hydrasjon (%)</label>
-            <input type="number" id="hydrasjon" value="75">
-            <label for="tid">Total tid (timer)</label>
-            <input type="number" id="tid" value="24">
-            <label for="siktet_hvete">Siktet hvetemel (%)</label>
-            <input type="number" id="siktet_hvete" value="40">
-            <label for="grovt_hvete">Grovt sammalt hvetemel (%)</label>
-            <input type="number" id="grovt_hvete" value="20">
-            <label for="siktet_rug">Siktet rugmel (%)</label>
-            <input type="number" id="siktet_rug" value="10">
-            <label for="grovt_rug">Grovt rugmel (%)</label>
-            <input type="number" id="grovt_rug" value="10">
-            <label for="siktet_spelt">Siktet speltmel (%)</label>
-            <input type="number" id="siktet_spelt" value="10">
-            <label for="grovt_spelt">Grovt speltmel (%)</label>
-            <input type="number" id="grovt_spelt" value="10">
-            <button onclick="beregn()">Beregn oppskrift</button>
-        </div>
-        <div class="output-section">
-            <div class="results" id="resultat"></div>
-            <div class="grovhet-indikator">
-                <div class="circle" id="grovhet" data-label="Grovhet"></div>
-            </div>
-        </div>
-    </div>
-    <div class="instructions" id="instruksjoner"></div>
+<body style="font-family: 'Segoe UI', sans-serif; background-color: #f4f4f8; margin: 0; padding: 20px;"><div id="mel-warning" style="display:none; color:red; font-weight:bold; margin-top:10px;"></div>
+<div class="container">
+<div class="half" id="input-section">
+<h2>📝 Oppskrift</h2>
+<label>Antall brød: <input id="antall" type="number" value="2"/></label>
+<label>Vekt per brød (g): <input id="vekt" type="number" value="800"/></label>
+<label>Hydrasjon (%): <input id="hydrasjon" type="number" value="75"/></label>
+<label>Hevetid i romtemperatur (timer): <input id="hevetid_rom" type="number" value="4"/></label>
+<label>Hevetid i kjøleskap (timer): <input id="hevetid_kald" type="number" value="16"/></label>
+<label><input id="autolyse" type="checkbox"/> Autolyse</label>
+<label><input id="fermentolyse" type="checkbox"/> Fermentolyse</label>
+</div>
+<div class="half" id="output-section">
+<h2>📊 Ingredienser</h2>
+<div id="beregning">Fyll inn verdier for å se beregning.</div>
+</div>
+</div>
+<div id="instructions">
+<h2>📋 Instruksjoner</h2>
+<div id="instruksjoner">Instruksjoner vil vises her.</div>
+</div>
+<script>
+        function oppdaterInstruksjoner() {
+            const autolyse = document.getElementById("autolyse").checked;
+            const fermentolyse = document.getElementById("fermentolyse").checked;
+            const hevetidRom = parseInt(document.getElementById("hevetid_rom").value) || 0;
+            const hevetidKald = parseInt(document.getElementById("hevetid_kald").value) || 0;
 
-    <script>
-        function beregn() {
-            const antall = parseFloat(document.getElementById('antall').value);
-            const vekt = parseFloat(document.getElementById('vekt').value);
-            const hydrasjon = parseFloat(document.getElementById('hydrasjon').value) / 100;
-            const tid = parseFloat(document.getElementById('tid').value);
+            let instr = [];
 
-            const melProsent = {
-                siktet_hvete: parseFloat(document.getElementById('siktet_hvete').value),
-                grovt_hvete: parseFloat(document.getElementById('grovt_hvete').value),
-                siktet_rug: parseFloat(document.getElementById('siktet_rug').value),
-                grovt_rug: parseFloat(document.getElementById('grovt_rug').value),
-                siktet_spelt: parseFloat(document.getElementById('siktet_spelt').value),
-                grovt_spelt: parseFloat(document.getElementById('grovt_spelt').value)
-            };
-
-            const totalVekt = antall * vekt;
-            const totalMel = totalVekt / (1 + hydrasjon + 0.02 + 0.1);
-            const vann = totalMel * hydrasjon;
-            const salt = totalMel * 0.02;
-            const starter = totalMel * 0.1;
-
-            let resultatHTML = `<h3>Ingredienser</h3>`;
-            resultatHTML += `<p>Totalt deigvekt: ${totalVekt.toFixed(1)} g</p>`;
-            resultatHTML += `<p>Totalt mel: ${totalMel.toFixed(1)} g</p>`;
-            for (const [meltype, prosent] of Object.entries(melProsent)) {
-                const mengde = totalMel * prosent / 100;
-                resultatHTML += `<p>${meltype.replace('_', ' ')}: ${mengde.toFixed(1)} g</p>`;
+            if (autolyse) {
+                instr.push("Bland mel og vann, la stå i 1 time for autolyse.");
             }
-            resultatHTML += `<p>Vann: ${vann.toFixed(1)} g</p>`;
-            resultatHTML += `<p>Salt: ${salt.toFixed(1)} g</p>`;
-            resultatHTML += `<p>Surdeigsstarter: ${starter.toFixed(1)} g</p>`;
-            document.getElementById('resultat').innerHTML = resultatHTML;
-
-            const grovProsent = melProsent.grovt_hvete + melProsent.grovt_rug + melProsent.grovt_spelt;
-            const circle = document.getElementById('grovhet');
-            let color = '#ccc';
-            let label = '';
-            if (grovProsent <= 24) {
-                color = '#8bc34a'; label = 'Mild';
-            } else if (grovProsent <= 49) {
-                color = '#ffeb3b'; label = 'Middels';
-            } else if (grovProsent <= 74) {
-                color = '#ff9800'; label = 'Grov';
-            } else {
-                color = '#f44336'; label = 'Svært grov';
+            if (fermentolyse) {
+                instr.push("Tilsett surdeigsstarter og vann, la stå i 1 time for fermentolyse.");
             }
-            circle.style.backgroundColor = color;
-            circle.setAttribute('data-label', label);
 
-            const instruksjonerHTML = `
-                <h3>Instruksjoner</h3>
-                <ul>
-                    <li>Bland mel og vann, la stå i 1 time for autolyse.</li>
-                    <li>Tilsett salt og surdeigsstarter, bland godt.</li>
-                    <li>Utfør strekk og fold hver 30. minutt i de første 2 timene.</li>
-                    <li>La deigen hvile og heve i romtemperatur i ca. 4–6 timer.</li>
-                    <li>Form brødene og legg dem i hevekurver.</li>
-                    <li>Sett i kjøleskap for kaldheving i ca. ${tid - 6} timer.</li>
-                    <li>Stek brødene direkte fra kjøleskap på 230°C i 40–45 minutter.</li>
-                </ul>
-            `;
-            document.getElementById('instruksjoner').innerHTML = instruksjonerHTML;
+            instr.push("Tilsett salt og surdeigsstarter, bland godt.");
+            instr.push("Utfør strekk og fold hver 30. minutt i de første 2 timene.");
+            instr.push(`La deigen hvile og heve i romtemperatur i ca. ${hevetidRom} timer.`);
+            instr.push("Form brødene og legg dem i hevekurver.");
+            instr.push(`Sett i kjøleskap for kaldheving i ca. ${hevetidKald} timer.`);
+            instr.push("Stek brødene direkte fra kjøleskap på 230°C i 40–45 minutter.");
+
+            document.getElementById("instruksjoner").innerHTML = "<ul><li>" + instr.join("</li><li>") + "</li></ul>";
         }
+
+        document.querySelectorAll("input").forEach(el => {
+            el.addEventListener("input", oppdaterInstruksjoner);
+            el.addEventListener("change", oppdaterInstruksjoner);
+        });
+
+        oppdaterInstruksjoner();
     </script>
+<script>
+function validateMelSum() {
+    const melInputs = document.querySelectorAll('.mel-input');
+    let total = 0;
+    melInputs.forEach(input => {
+        total += parseFloat(input.value) || 0;
+    });
+    const warning = document.getElementById('mel-warning');
+    if (total > 100) {
+        warning.textContent = 'Feil: Summen av meltypene overstiger 100 % (' + total.toFixed(1) + '%).';
+        warning.style.display = 'block';
+    } else {
+        warning.style.display = 'none';
+    }
+}
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.mel-input').forEach(input => {
+        input.addEventListener('input', validateMelSum);
+    });
+});
+</script>
+<div style="margin-top:20px; padding:10px; background-color:#f0f8ff; border-left:5px solid #0077cc;">
+<strong>ℹ️ Autolyse:</strong> En hvileperiode der mel og vann blandes og får stå før salt og surdeigsstarter tilsettes. Dette forbedrer deigens struktur og elastisitet.
+</div>
+<div style="margin-top:10px; padding:10px; background-color:#fff8dc; border-left:5px solid #cc7700;">
+<strong>ℹ️ Fermentolyse:</strong> En metode der surdeigsstarter tilsettes samtidig med vann og mel, og får hvile før salt tilsettes. Dette gir en mildere smak og effektiv fermentering.
+</div>
+<div style="margin-top:20px;">
+<label for="start-time"><strong>Starttidspunkt:</strong></label>
+<input id="start-time" onchange="updateTimeline()" type="time" value="08:00"/>
+<div id="timeline-preview" style="margin-top:10px; padding:10px; background-color:#f9f9f9; border:1px solid #ccc;"></div>
+</div>
+<script>
+function updateTimeline() {
+    const startTime = document.getElementById('start-time').value;
+    const timeline = document.getElementById('timeline-preview');
+    if (!startTime) return;
+    const [hour, minute] = startTime.split(':').map(Number);
+    let steps = ['Autolyse (1t)', 'Tilsett salt og starter', 'Strekk og fold', 'Bulkfermentering', 'Forming og kaldheving', 'Steking'];
+    let html = '<strong>Tidslinje:</strong><ul>';
+    let h = hour, m = minute;
+    steps.forEach((step, i) => {
+        html += '<li>' + step + ' – ' + String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + '</li>';
+        h = (h + 1) % 24;
+    });
+    html += '</ul>';
+    timeline.innerHTML = html;
+}
+document.addEventListener('DOMContentLoaded', updateTimeline);
+</script>
 </body>
 </html>
+<div id="melvalg" style="margin-top: 2em;">
+<h3>Velg meltyper</h3>
+<p>Huk av hvilke meltyper du vil bruke. Du kan deretter justere prosentandelene.</p>
+<form id="meltypeForm">
+<div style="display: flex; flex-wrap: wrap; gap: 1em;">
+<label><input name="meltype" type="checkbox" value="Siktet finmalt hvetemel"/> Siktet finmalt hvetemel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt finmalt hvetemel"/> Sammalt finmalt hvetemel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt grovmalt hvetemel"/> Sammalt grovmalt hvetemel</label>
+<label><input name="meltype" type="checkbox" value="Siktet finmalt speltmel"/> Siktet finmalt speltmel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt finmalt speltmel"/> Sammalt finmalt speltmel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt grovmalt speltmel"/> Sammalt grovmalt speltmel</label>
+<label><input name="meltype" type="checkbox" value="Siktet finmalt rugmel"/> Siktet finmalt rugmel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt finmalt rugmel"/> Sammalt finmalt rugmel</label>
+<label><input name="meltype" type="checkbox" value="Sammalt grovmalt rugmel"/> Sammalt grovmalt rugmel</label>
+<label><input name="meltype" type="checkbox" value="Havregryn"/> Havregryn</label>
+<label><input name="meltype" type="checkbox" value="Frø"/> Frø</label>
+<label><input name="meltype" type="checkbox" value="Korn"/> Korn</label>
+</div>
+</form>
+<div id="prosentRedigering" style="margin-top: 1em;">
+<h4>Prosentandel av valgte meltyper</h4>
+<div id="prosentInputs"></div>
+</div>
+</div>
+<script>
+document.querySelectorAll('input[name="meltype"]').forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+    const container = document.getElementById("prosentInputs");
+    container.innerHTML = "";
+    document.querySelectorAll('input[name="meltype"]:checked').forEach(function(cb) {
+      const label = cb.value;
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "0";
+      input.max = "100";
+      input.value = "0";
+      input.name = label;
+      input.style.marginRight = "1em";
+      input.style.width = "60px";
+      const span = document.createElement("span");
+      span.textContent = label + ": ";
+      const div = document.createElement("div");
+      div.appendChild(span);
+      div.appendChild(input);
+      container.appendChild(div);
+    });
+  });
+});
+</script>
