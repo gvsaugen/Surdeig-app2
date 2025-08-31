@@ -9,160 +9,195 @@
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fdf6f0;
+            background: linear-gradient(to right, #f8f4e5, #eae7dc);
             color: #333;
         }
         header {
-            background-color: #a67c52;
-            color: white;
-            padding: 1em;
+            background-color: #d8c3a5;
+            padding: 20px;
             text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .container {
             display: flex;
             flex-wrap: wrap;
-            padding: 1em;
+            padding: 20px;
         }
         .input-section, .output-section {
             flex: 1;
             min-width: 300px;
-            padding: 1em;
+            padding: 20px;
             box-sizing: border-box;
         }
         .input-section {
-            background-color: #fff8f0;
+            background-color: #fff;
+            border-right: 2px solid #d8c3a5;
         }
         .output-section {
-            background-color: #f0f4f8;
+            background-color: #fefefe;
         }
         label {
             display: block;
-            margin-top: 1em;
+            margin-top: 10px;
             font-weight: bold;
         }
         input {
             width: 100%;
-            padding: 0.5em;
-            margin-top: 0.3em;
-            box-sizing: border-box;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+        input:hover {
+            border-color: #d8c3a5;
         }
         button {
-            margin-top: 1em;
-            padding: 0.7em;
-            background-color: #a67c52;
-            color: white;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #d8c3a5;
+            color: #fff;
             border: none;
+            border-radius: 5px;
             cursor: pointer;
-            width: 100%;
+            font-size: 1em;
+            transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #8b6845;
+            background-color: #c7b198;
         }
-        .instructions {
-            padding: 1em;
-            background-color: #e8f5e9;
-            margin: 1em;
+        .results, .instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f4f4f4;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        h2 {
-            border-bottom: 2px solid #ccc;
-            padding-bottom: 0.3em;
+        .grovhet-indikator {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto;
+            background-color: #ccc;
+            position: relative;
+            transition: background-color 0.5s ease;
+        }
+        .circle::after {
+            content: attr(data-label);
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            color: #fff;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Surdeigsbrød Kalkulator</h1>
-    </header>
+    <header>Surdeigsbrød Kalkulator</header>
     <div class="container">
         <div class="input-section">
-            <h2>📝 Oppskrift Input</h2>
-            <label for="numBread">Antall brød</label>
-            <input type="number" id="numBread" value="2">
-
-            <label for="weightPerBread">Vekt per brød (g)</label>
-            <input type="number" id="weightPerBread" value="800">
-
-            <label for="hydration">Hydrasjon (%)</label>
-            <input type="number" id="hydration" value="75">
-
-            <label for="totalTime">Total tid (timer)</label>
-            <input type="number" id="totalTime" value="24">
-
-            <label for="siktetHvete">Siktet hvetemel (%)</label>
-            <input type="number" id="siktetHvete" value="40">
-
-            <label for="grovtHvete">Grovt sammalt hvetemel (%)</label>
-            <input type="number" id="grovtHvete" value="20">
-
-            <label for="siktetRug">Siktet rugmel (%)</label>
-            <input type="number" id="siktetRug" value="10">
-
-            <label for="grovtRug">Grovt rugmel (%)</label>
-            <input type="number" id="grovtRug" value="10">
-
-            <label for="siktetSpelt">Siktet speltmel (%)</label>
-            <input type="number" id="siktetSpelt" value="10">
-
-            <label for="grovtSpelt">Grovt speltmel (%)</label>
-            <input type="number" id="grovtSpelt" value="10">
-
-            <button onclick="calculateRecipe()">Beregn Oppskrift</button>
+            <label for="antall">Antall brød</label>
+            <input type="number" id="antall" value="2">
+            <label for="vekt">Vekt per brød (g)</label>
+            <input type="number" id="vekt" value="800">
+            <label for="hydrasjon">Hydrasjon (%)</label>
+            <input type="number" id="hydrasjon" value="75">
+            <label for="tid">Total tid (timer)</label>
+            <input type="number" id="tid" value="24">
+            <label for="siktet_hvete">Siktet hvetemel (%)</label>
+            <input type="number" id="siktet_hvete" value="40">
+            <label for="grovt_hvete">Grovt sammalt hvetemel (%)</label>
+            <input type="number" id="grovt_hvete" value="20">
+            <label for="siktet_rug">Siktet rugmel (%)</label>
+            <input type="number" id="siktet_rug" value="10">
+            <label for="grovt_rug">Grovt rugmel (%)</label>
+            <input type="number" id="grovt_rug" value="10">
+            <label for="siktet_spelt">Siktet speltmel (%)</label>
+            <input type="number" id="siktet_spelt" value="10">
+            <label for="grovt_spelt">Grovt speltmel (%)</label>
+            <input type="number" id="grovt_spelt" value="10">
+            <button onclick="beregn()">Beregn oppskrift</button>
         </div>
         <div class="output-section">
-            <h2>📊 Ingredienser</h2>
-            <div id="output"></div>
+            <div class="results" id="resultat"></div>
+            <div class="grovhet-indikator">
+                <div class="circle" id="grovhet" data-label="Grovhet"></div>
+            </div>
         </div>
     </div>
-    <div class="instructions">
-        <h2>📋 Instruksjoner</h2>
-        <div id="instructions"></div>
-    </div>
+    <div class="instructions" id="instruksjoner"></div>
 
     <script>
-        function calculateRecipe() {
-            const numBread = parseFloat(document.getElementById('numBread').value);
-            const weightPerBread = parseFloat(document.getElementById('weightPerBread').value);
-            const hydration = parseFloat(document.getElementById('hydration').value) / 100;
-            const totalTime = parseFloat(document.getElementById('totalTime').value);
+        function beregn() {
+            const antall = parseFloat(document.getElementById('antall').value);
+            const vekt = parseFloat(document.getElementById('vekt').value);
+            const hydrasjon = parseFloat(document.getElementById('hydrasjon').value) / 100;
+            const tid = parseFloat(document.getElementById('tid').value);
 
-            const flourPercents = {
-                'Siktet hvetemel': parseFloat(document.getElementById('siktetHvete').value),
-                'Grovt sammalt hvetemel': parseFloat(document.getElementById('grovtHvete').value),
-                'Siktet rugmel': parseFloat(document.getElementById('siktetRug').value),
-                'Grovt rugmel': parseFloat(document.getElementById('grovtRug').value),
-                'Siktet speltmel': parseFloat(document.getElementById('siktetSpelt').value),
-                'Grovt speltmel': parseFloat(document.getElementById('grovtSpelt').value)
+            const melProsent = {
+                siktet_hvete: parseFloat(document.getElementById('siktet_hvete').value),
+                grovt_hvete: parseFloat(document.getElementById('grovt_hvete').value),
+                siktet_rug: parseFloat(document.getElementById('siktet_rug').value),
+                grovt_rug: parseFloat(document.getElementById('grovt_rug').value),
+                siktet_spelt: parseFloat(document.getElementById('siktet_spelt').value),
+                grovt_spelt: parseFloat(document.getElementById('grovt_spelt').value)
             };
 
-            const totalWeight = numBread * weightPerBread;
-            const totalFlour = totalWeight / (1 + hydration + 0.02 + 0.1); // 2% salt, 10% starter
-            const water = totalFlour * hydration;
-            const salt = totalFlour * 0.02;
-            const starter = totalFlour * 0.1;
+            const totalVekt = antall * vekt;
+            const totalMel = totalVekt / (1 + hydrasjon + 0.02 + 0.1);
+            const vann = totalMel * hydrasjon;
+            const salt = totalMel * 0.02;
+            const starter = totalMel * 0.1;
 
-            let outputHTML = `<p><strong>Total deigvekt:</strong> ${totalWeight.toFixed(1)} g</p>`;
-            outputHTML += `<p><strongTotalt mel:</strong> ${totalFlour.toFixed(1)} g</p>`;
-            for (const [name, percent] of Object.entries(flourPercents)) {
-                const amount = totalFlour * (percent / 100);
-                outputHTML += `<p>${name}: ${amount.toFixed(1)} g</p>`;
+            let resultatHTML = `<h3>Ingredienser</h3>`;
+            resultatHTML += `<p>Totalt deigvekt: ${totalVekt.toFixed(1)} g</p>`;
+            resultatHTML += `<p>Totalt mel: ${totalMel.toFixed(1)} g</p>`;
+            for (const [meltype, prosent] of Object.entries(melProsent)) {
+                const mengde = totalMel * prosent / 100;
+                resultatHTML += `<p>${meltype.replace('_', ' ')}: ${mengde.toFixed(1)} g</p>`;
             }
-            outputHTML += `<p><strong>Vann:</strong> ${water.toFixed(1)} g</p>`;
-            outputHTML += `<p><strong>Salt:</strong> ${salt.toFixed(1)} g</p>`;
-            outputHTML += `<p><strong>Surdeigsstarter:</strong> ${starter.toFixed(1)} g</p>`;
-            document.getElementById('output').innerHTML = outputHTML;
+            resultatHTML += `<p>Vann: ${vann.toFixed(1)} g</p>`;
+            resultatHTML += `<p>Salt: ${salt.toFixed(1)} g</p>`;
+            resultatHTML += `<p>Surdeigsstarter: ${starter.toFixed(1)} g</p>`;
+            document.getElementById('resultat').innerHTML = resultatHTML;
 
-            let instructionsHTML = `
-                <ol>
+            const grovProsent = melProsent.grovt_hvete + melProsent.grovt_rug + melProsent.grovt_spelt;
+            const circle = document.getElementById('grovhet');
+            let color = '#ccc';
+            let label = '';
+            if (grovProsent <= 24) {
+                color = '#8bc34a'; label = 'Mild';
+            } else if (grovProsent <= 49) {
+                color = '#ffeb3b'; label = 'Middels';
+            } else if (grovProsent <= 74) {
+                color = '#ff9800'; label = 'Grov';
+            } else {
+                color = '#f44336'; label = 'Svært grov';
+            }
+            circle.style.backgroundColor = color;
+            circle.setAttribute('data-label', label);
+
+            const instruksjonerHTML = `
+                <h3>Instruksjoner</h3>
+                <ul>
                     <li>Bland mel og vann, la stå i 1 time for autolyse.</li>
                     <li>Tilsett salt og surdeigsstarter, bland godt.</li>
                     <li>Utfør strekk og fold hver 30. minutt i de første 2 timene.</li>
                     <li>La deigen hvile og heve i romtemperatur i ca. 4–6 timer.</li>
                     <li>Form brødene og legg dem i hevekurver.</li>
-                    <li>Sett i kjøleskap for kaldheving i ca. ${totalTime - 6} timer.</li>
+                    <li>Sett i kjøleskap for kaldheving i ca. ${tid - 6} timer.</li>
                     <li>Stek brødene direkte fra kjøleskap på 230°C i 40–45 minutter.</li>
-                </ol>
+                </ul>
             `;
-            document.getElementById('instructions').innerHTML = instructionsHTML;
+            document.getElementById('instruksjoner').innerHTML = instruksjonerHTML;
         }
     </script>
 </body>
